@@ -58,14 +58,17 @@ class SmartWebSocket(object):
     def subscribe(self, task, token):
         # print(self.task_dict)
         self.task_dict.update([(task,token),])
-        # print(self.task_dict)
+        print(self.task_dict)
         if task in ("mw", "sfi", "dp"):
             strwatchlistscrips = token  # dynamic call
         
             try:
                 request = {"task": task, "channel": strwatchlistscrips, "token": self.feed_token,
                            "user": self.client_code, "acctid": self.client_code}
-        
+
+                print(request)
+                print(" ---------------")
+                print(json.dumps(request))
                 self.ws.send(
                     six.b(json.dumps(request))
                 )
@@ -121,10 +124,10 @@ class SmartWebSocket(object):
             self._on_message(self.ws,data)
     
     def connect(self):
-        # websocket.enableTrace(True)
-        self.ws = websocket.WebSocketApp(self.ROOT_URI, 
-                                     on_message=self.__on_message, 
-                                     on_close=self.__on_close, 
+        websocket.enableTrace(True)
+        self.ws = websocket.WebSocketApp(self.ROOT_URI,
+                                     on_message=self.__on_message,
+                                     on_close=self.__on_close,
                                      on_open=self.__on_open,
                                      on_error=self.__on_error)
         
